@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "chatandgo",
     "name": "ChatAndGo",
     "slug": "ChatAndGo",
     "version": "1.0.0",
@@ -20,10 +21,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ]
   }
 }
