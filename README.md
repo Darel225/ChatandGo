@@ -94,7 +94,7 @@ L'application communique exclusivement avec des webhooks n8n. Voici la liste des
 | Vérification OTP | `/webhook/auth-verify-otp` | `{ email, code }` |
 | Maj Profil | `/webhook/auth-update-profile`| `{ email, nom, prenom, quartier, avatar }` |
 | Envoi Message IA | `/webhook/convcommerce` | `{ message, sessionId }` |
-| Historique | `/webhook-test/get-history` | `{ email }` |
+| Historique | `/webhook/get-history` | `{ email }` |
 | Charger un Chat | `/webhook/get-conversation` | `{ sessionId }` |
 | Vider Historique| `/webhook/clear-history` | `{ email }` |
 
