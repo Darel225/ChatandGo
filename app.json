@@ -5,11 +5,11 @@
     "slug": "ChatAndGo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/CentralLogo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/images/CentralLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,18 +18,25 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/CentralLogo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.darelseke.ChatAndGo"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/CentralLogo.png"
     },
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4c96457b-b437-4519-87a5-cce723a1cafb"
+      }
+    }
   }
 }
