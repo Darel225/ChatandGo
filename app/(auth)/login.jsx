@@ -63,7 +63,7 @@ export default function LoginScreen() {
             <Ionicons name="chatbubble-ellipses" size={36} color="#fff" />
           </View>
           <Text style={styles.appName}>Chat<Text style={styles.appNameAccent}>&</Text>Go</Text>
-          <Text style={styles.tagline}>COMMERCE Â· FLUIDITÃ‰</Text>
+          <Text style={styles.tagline}>COMMERCE · FLUIDITÉ</Text>
         </View>
 
         {/* â”€â”€â”€ Carte formulaire â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}

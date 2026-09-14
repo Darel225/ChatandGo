@@ -212,7 +212,7 @@ export default function ProfileSetupScreen() {
           <View style={styles.infoRow}>
             <Ionicons name="information-circle-outline" size={13} color={Colors.textLight} />
             <Text style={styles.infoText}>
-              Votre zone nous aide à  vous proposer les prestataires les plus proches.
+              Votre zone nous aide à vous proposer les prestataires les plus proches.
             </Text>
           </View>
         </View>
