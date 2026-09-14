@@ -116,8 +116,8 @@ export default function ProfileSetupScreen() {
   return (
     <KeyboardAvoidingView
       style={[styles.root, { paddingTop: insets.top }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
     >
       <ScrollView
         contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + 24 }]}
@@ -193,7 +193,7 @@ export default function ProfileSetupScreen() {
             />
             <TextInput
               style={styles.input}
-              placeholder="Ex : Cocody, Yopougon, Plateauâ€¦"
+              placeholder="Ex : Cocody, Yopougon, Plateau"
               placeholderTextColor={Colors.textLight}
               value={zone}
               onChangeText={setZone}
@@ -212,7 +212,7 @@ export default function ProfileSetupScreen() {
           <View style={styles.infoRow}>
             <Ionicons name="information-circle-outline" size={13} color={Colors.textLight} />
             <Text style={styles.infoText}>
-              Votre zone nous aide Ã  vous proposer les prestataires les plus proches.
+              Votre zone nous aide à  vous proposer les prestataires les plus proches.
             </Text>
           </View>
         </View>
@@ -220,7 +220,7 @@ export default function ProfileSetupScreen() {
         {/* â”€â”€â”€ Pied de page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.footer}>
           <CustomButton
-            title="Commencer l'aventure â†’"
+            title="Commencer l'aventure"
             onPress={handleComplete}
             loading={loading}
             style={[styles.cta, (!isValid || loading) && styles.ctaDisabled]}
