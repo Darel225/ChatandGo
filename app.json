@@ -23,7 +23,8 @@
       },
       "edgeToEdgeEnabled": true,
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.darelseke.ChatAndGo"
+      "package": "com.darelseke.chatandgo",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/images/CentralLogo.png"
