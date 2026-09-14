@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+﻿import { useEffect } from 'react';
 import { Stack, useRouter, useSegments, useRootNavigationState } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useUserStore } from '../store/useUserStore';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 export default function RootLayout() {
   const { isAuthenticated } = useUserStore();
@@ -15,13 +16,15 @@ export default function RootLayout() {
     if (!navigationState?.key) return;
 
     const inAuthGroup = segments[0] === '(auth)';
+    const inTabsGroup = segments[0] === '(tabs)';
     
+    // Ajout d'un léger délai pour garantir qu'Expo Router a terminé son cycle de rendu
     setTimeout(() => {
       if (!isAuthenticated && !inAuthGroup) {
         // Redirige vers l'écran de lancement (auth/index) si non connecté
         router.replace('/(auth)');
-      } else if (isAuthenticated && inAuthGroup) {
-        // Redirige vers l'accueil (tabs) si connecté
+      } else if (isAuthenticated && !inTabsGroup) {
+        // Redirige vers l'accueil (tabs) si connecté et sur une autre route (auth ou /)
         router.replace('/(tabs)');
       }
     }, 1);
@@ -29,10 +32,12 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
+      <ErrorBoundary>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </ErrorBoundary>
     </SafeAreaProvider>
   );
 }

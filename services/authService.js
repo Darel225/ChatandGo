@@ -1,5 +1,4 @@
-// URL de base de notre instance n8n
-const N8N_BASE_URL = 'https://chatandgo-backend.onrender.com';
+﻿import { BASE_URL } from '../constants/api';
 
 export const authService = {
 
@@ -10,7 +9,7 @@ export const authService = {
    */
   requestOtp: async (email) => {
     try {
-      const response = await fetch(`${N8N_BASE_URL}/webhook/auth-request-otp`, {
+      const response = await fetch(`${BASE_URL}/auth/auth-request-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -20,13 +19,11 @@ export const authService = {
         throw new Error(`Erreur serveur lors de la demande OTP : ${response.status}`);
       }
 
-      // Lecture sécurisée : on lit le texte brut avant de parser en JSON
-      // pour éviter l'erreur "Unexpected end of input" si la réponse est vide
       const text = await response.text();
       const data = text ? JSON.parse(text) : {};
       return data;
     } catch (error) {
-      console.error('[authService.requestOtp]', error);
+      if (__DEV__) { console.error('[authService.requestOtp]', error); }
       throw new Error("Impossible d'envoyer le code. Vérifiez votre connexion et réessayez.");
     }
   },
@@ -39,7 +36,7 @@ export const authService = {
    */
   verifyOtp: async (email, code) => {
     try {
-      const response = await fetch(`${N8N_BASE_URL}/webhook/auth-verify-otp`, {
+      const response = await fetch(`${BASE_URL}/auth/auth-verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, code }),
@@ -49,14 +46,11 @@ export const authService = {
         throw new Error(`Erreur serveur lors de la vérification OTP : ${response.status}`);
       }
 
-      // Lecture sécurisée : on lit le texte brut avant de parser en JSON
-      // pour éviter l'erreur "Unexpected end of input" si la réponse est vide
       const text = await response.text();
       const data = text ? JSON.parse(text) : {};
-      // Structure attendue : { isValid: bool, isNewUser: bool, user: { id, nom, prenom, email, ville_par_defaut, quartier_par_defaut } | null }
       return data;
     } catch (error) {
-      console.error('[authService.verifyOtp]', error);
+      if (__DEV__) { console.error('[authService.verifyOtp]', error); }
       throw new Error('La vérification a échoué. Veuillez réessayer.');
     }
   },
@@ -64,16 +58,10 @@ export const authService = {
   /**
    * Met à jour le profil d'un nouvel utilisateur après la vérification OTP.
    * @param {object} profileData - Les données du profil à envoyer
-   * @param {string} profileData.email      - E-mail de l'utilisateur connecté
-   * @param {string} profileData.nom        - Nom de famille
-   * @param {string} profileData.prenom     - Prénom (peut être vide "")
-   * @param {string} profileData.quartier   - Quartier / commune saisi
-   * @param {string} profileData.photo_url  - URI local de la photo ou "" si aucune photo
-   * @returns {Promise<{ success: boolean, message: string, user: object }>}
    */
   updateProfile: async ({ email, nom, prenom, quartier, photo_url }) => {
     try {
-      const response = await fetch(`${N8N_BASE_URL}/webhook/update-profile`, {
+      const response = await fetch(`${BASE_URL}/profile/update-profile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, nom, prenom, quartier, photo_url }),
@@ -83,14 +71,11 @@ export const authService = {
         throw new Error(`Erreur serveur lors de la mise à jour du profil : ${response.status}`);
       }
 
-      // Lecture sécurisée : on lit le texte brut avant de parser en JSON
-      // pour éviter l'erreur "Unexpected end of input" si la réponse est vide
       const text = await response.text();
       const data = text ? JSON.parse(text) : {};
-      // Structure attendue : { success: bool, message: string, user: { ... } }
       return data;
     } catch (error) {
-      console.error('[authService.updateProfile]', error);
+      if (__DEV__) { console.error('[authService.updateProfile]', error); }
       throw new Error('La mise à jour du profil a échoué. Veuillez réessayer.');
     }
   },

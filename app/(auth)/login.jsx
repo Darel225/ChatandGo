@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+﻿import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -39,7 +39,7 @@ export default function LoginScreen() {
       // Transmet l'e-mail en paramètre de navigation vers l'écran de vérification
       router.push({ pathname: '/(auth)/verify-otp', params: { email: email.trim().toLowerCase() } });
     } catch (error) {
-      console.error(error);
+      if (__DEV__) { console.error(error); }
       Alert.alert('Erreur', error.message || "Impossible d'envoyer le code. Réessayez.");
     } finally {
       setLoading(false);
@@ -57,16 +57,16 @@ export default function LoginScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {/* ─── Header ─────────────────────────────────────────── */}
+        {/* â”€â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.header}>
           <View style={styles.iconContainer}>
             <Ionicons name="chatbubble-ellipses" size={36} color="#fff" />
           </View>
           <Text style={styles.appName}>Chat<Text style={styles.appNameAccent}>&</Text>Go</Text>
-          <Text style={styles.tagline}>COMMERCE · FLUIDITÉ</Text>
+          <Text style={styles.tagline}>COMMERCE Â· FLUIDITÃ‰</Text>
         </View>
 
-        {/* ─── Carte formulaire ──────────────────────────────── */}
+        {/* â”€â”€â”€ Carte formulaire â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.card}>
           <Text style={styles.title}>Connexion</Text>
           <Text style={styles.subtitle}>
@@ -122,7 +122,7 @@ export default function LoginScreen() {
           />
         </View>
 
-        {/* ─── Conditions d'utilisation ─────────────────────── */}
+        {/* â”€â”€â”€ Conditions d'utilisation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <Text style={[styles.terms, { paddingBottom: insets.bottom + 24 }]}>
           En continuant, vous acceptez nos{' '}
           <Text style={styles.termsLink}>Conditions d'utilisation</Text>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 
-  // ─── Header ───────────────────────────────────────────────
+  // â”€â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   header: {
     alignItems: 'center',
     paddingTop: 32,
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-  // ─── Carte formulaire ─────────────────────────────────────
+  // â”€â”€â”€ Carte formulaire â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   card: {
     flex: 1,
     backgroundColor: Colors.background,
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     marginBottom: 28,
   },
 
-  // ─── Champ de saisie e-mail ───────────────────────────────
+  // â”€â”€â”€ Champ de saisie e-mail â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     lineHeight: 17,
   },
 
-  // ─── Bouton principal ─────────────────────────────────────
+  // â”€â”€â”€ Bouton principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   continueBtn: {
     marginBottom: 24,
   },
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 
-  // ─── CGU ──────────────────────────────────────────────────
+  // â”€â”€â”€ CGU â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   terms: {
     textAlign: 'center',
     fontSize: 11,
@@ -268,3 +268,4 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+

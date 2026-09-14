@@ -9,12 +9,12 @@ export default function ChatBubble({ message, isUser, userAvatar, userFirstName 
   const renderFormattedText = (text) => {
     if (!text) return null;
     
-    // Sépare le texte à chaque fois qu'il trouve des balises **
-    const parts = text.split(/(\*\*.*?\*\*)/g);
+    // Separe le texte a chaque fois qu'il trouve des balises **
+    const parts = text.split(/(\**.*?\**)/g);
     
     return parts.map((part, index) => {
       if (part.startsWith('**') && part.endsWith('**')) {
-        // Enlève les ** et applique le style gras
+        // Enleve les ** et applique le style gras
         return (
           <Text key={index} style={{ fontWeight: 'bold' }}>
             {part.slice(2, -2)}
@@ -27,7 +27,7 @@ export default function ChatBubble({ message, isUser, userAvatar, userFirstName 
 
   return (
     <View style={[styles.msgRow, isUser ? styles.msgRowUser : styles.msgRowAI]}>
-      {/* Avatar IA côté gauche */}
+      {/* Avatar IA cote gauche */}
       {!isUser && (
         <View style={styles.aiAvatar}>
           <Ionicons name="sparkles" size={16} color={Colors.primary} />
@@ -41,7 +41,7 @@ export default function ChatBubble({ message, isUser, userAvatar, userFirstName 
           </Text>
         </View>
 
-        {/* Cartes prestataires si présentes */}
+        {/* Cartes prestataires si presentes */}
         {!isUser && message.providers && message.providers.length > 0 && (
           message.providers.map((provider, index) => (
             <ProviderCard key={provider.id || index} provider={provider} />
@@ -51,7 +51,7 @@ export default function ChatBubble({ message, isUser, userAvatar, userFirstName 
         <Text style={styles.timeText}>{message.time}</Text>
       </View>
 
-      {/* Avatar utilisateur côté droit */}
+      {/* Avatar utilisateur cote droit */}
       {isUser && (
         userAvatar
           ? <Image source={{ uri: userAvatar }} style={styles.userAvatar} />

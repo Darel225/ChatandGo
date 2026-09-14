@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -27,7 +27,7 @@ export default function ProfileSetupScreen() {
   const [avatar, setAvatar] = useState(null);
   const [nameFocused, setNameFocused] = useState(false);
   const [zoneFocused, setZoneFocused] = useState(false);
-  // État de chargement pendant l'appel API vers n8n
+  // Ã‰tat de chargement pendant l'appel API vers n8n
   const [loading, setLoading] = useState(false);
 
   const { setUserData, login } = useUserStore();
@@ -38,14 +38,14 @@ export default function ProfileSetupScreen() {
 
   const isValid = fullName.trim().length >= 2 && zone.trim().length >= 2;
 
-  // ─── Sélecteur de photo (galerie uniquement) ──────────────
+  // â”€â”€â”€ Sélecteur de photo (galerie uniquement) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handlePickAvatar = async () => {
-    // Demande la permission d'accès à la galerie photos
+    // Demande la permission d'accès Ã  la galerie photos
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       Alert.alert(
         'Permission refusée',
-        "Autorisez l'accès à la galerie dans les paramètres de votre téléphone pour choisir une photo.",
+        "Autorisez l'accès Ã  la galerie dans les paramètres de votre téléphone pour choisir une photo.",
       );
       return;
     }
@@ -64,7 +64,7 @@ export default function ProfileSetupScreen() {
     if (!isValid || loading) return;
     setLoading(true);
 
-    // ── Règle de séparation nom / prénom ──────────────────────
+    // â”€â”€ Règle de séparation nom / prénom â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // S'il n'y a qu'un seul mot : ce mot va dans 'nom', 'prenom' est vide.
     // S'il y a plusieurs mots : le premier est 'prenom', le reste est 'nom'.
     const parts = fullName.trim().split(/\s+/);
@@ -72,7 +72,7 @@ export default function ProfileSetupScreen() {
     const nom = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
 
     try {
-      // Appel au webhook n8n de mise à jour du profil
+      // Appel au webhook n8n de mise Ã  jour du profil
       const result = await authService.updateProfile({
         email: email || '',
         nom,
@@ -82,7 +82,7 @@ export default function ProfileSetupScreen() {
       });
 
       if (result.success) {
-        // Mise à jour du store Zustand avec les données renvoyées par le serveur
+        // Mise Ã  jour du store Zustand avec les données renvoyées par le serveur
         const serverUser = result.user || {};
         setUserData({
           userId: serverUser.id || null,
@@ -102,11 +102,11 @@ export default function ProfileSetupScreen() {
       } else {
         Alert.alert(
           'Erreur',
-          result.message || 'La mise à jour du profil a échoué. Veuillez réessayer.',
+          result.message || 'La mise Ã  jour du profil a échoué. Veuillez réessayer.',
         );
       }
     } catch (error) {
-      console.error('[ProfileSetup.handleComplete]', error);
+      if (__DEV__) { console.error('[ProfileSetup.handleComplete]', error); }
       Alert.alert('Erreur réseau', error.message || 'Impossible de sauvegarder votre profil. Réessayez.');
     } finally {
       setLoading(false);
@@ -124,7 +124,7 @@ export default function ProfileSetupScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {/* ─── En-tête ──────────────────────────────────── */}
+        {/* â”€â”€â”€ En-tête â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.headerBlock}>
           <View style={styles.stepRow}>
             <View style={styles.stepDot} />
@@ -137,7 +137,7 @@ export default function ProfileSetupScreen() {
           </Text>
         </View>
 
-        {/* ─── Avatar ───────────────────────────────────── */}
+        {/* â”€â”€â”€ Avatar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.avatarSection}>
           <TouchableOpacity style={styles.avatarWrapper} onPress={handlePickAvatar} activeOpacity={0.85}>
             {avatar ? (
@@ -155,7 +155,7 @@ export default function ProfileSetupScreen() {
           <Text style={styles.avatarHint}>Appuyez pour choisir une photo</Text>
         </View>
 
-        {/* ─── Formulaire ───────────────────────────────── */}
+        {/* â”€â”€â”€ Formulaire â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.form}>
           {/* Nom complet */}
           <Text style={styles.label}>Nom complet</Text>
@@ -193,7 +193,7 @@ export default function ProfileSetupScreen() {
             />
             <TextInput
               style={styles.input}
-              placeholder="Ex : Cocody, Yopougon, Plateau…"
+              placeholder="Ex : Cocody, Yopougon, Plateauâ€¦"
               placeholderTextColor={Colors.textLight}
               value={zone}
               onChangeText={setZone}
@@ -212,15 +212,15 @@ export default function ProfileSetupScreen() {
           <View style={styles.infoRow}>
             <Ionicons name="information-circle-outline" size={13} color={Colors.textLight} />
             <Text style={styles.infoText}>
-              Votre zone nous aide à vous proposer les prestataires les plus proches.
+              Votre zone nous aide Ã  vous proposer les prestataires les plus proches.
             </Text>
           </View>
         </View>
 
-        {/* ─── Pied de page ─────────────────────────────── */}
+        {/* â”€â”€â”€ Pied de page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.footer}>
           <CustomButton
-            title="Commencer l'aventure →"
+            title="Commencer l'aventure â†’"
             onPress={handleComplete}
             loading={loading}
             style={[styles.cta, (!isValid || loading) && styles.ctaDisabled]}
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
 
-  // ─── En-tête ──────────────────────────────────────────────
+  // â”€â”€â”€ En-tête â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   headerBlock: {
     paddingTop: 24,
     marginBottom: 32,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
   },
 
-  // ─── Avatar ───────────────────────────────────────────────
+  // â”€â”€â”€ Avatar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   avatarSection: {
     alignItems: 'center',
     marginBottom: 36,
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     color: Colors.textLight,
   },
 
-  // ─── Formulaire ───────────────────────────────────────────
+  // â”€â”€â”€ Formulaire â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   form: {
     marginBottom: 32,
   },
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     lineHeight: 17,
   },
 
-  // ─── Pied de page ─────────────────────────────────────────
+  // â”€â”€â”€ Pied de page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   footer: {},
   cta: {
     marginBottom: 16,
@@ -398,3 +398,4 @@ const styles = StyleSheet.create({
     color: Colors.textLight,
   },
 });
+

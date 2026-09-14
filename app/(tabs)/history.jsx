@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+﻿import React, { useRef, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -17,8 +17,7 @@ import { useRouter, useFocusEffect } from 'expo-router';
 import Colors from '../../constants/Colors';
 import { useUserStore } from '../../store/useUserStore';
 
-// URL de base du webhook n8n (identique aux autres services)
-const N8N_BASE_URL = 'https://chatandgo-backend.onrender.com';
+import { BASE_URL } from '../../constants/api';
 
 // ─── Utilitaire : étiquette de section intelligente ───────────
 // Reçoit une chaîne de date ISO (created_at) et retourne la section
@@ -169,7 +168,7 @@ export default function HistoryScreen() {
 
         setLoading(true);
         try {
-          const response = await fetch(`${N8N_BASE_URL}/webhook/get-history`, {
+          const response = await fetch(`${BASE_URL}/history/get-history`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),
@@ -189,7 +188,7 @@ export default function HistoryScreen() {
             setConversations([]);
           }
         } catch (error) {
-          console.error('[HistoryScreen.fetchHistory]', error);
+          if (__DEV__) { console.error('[HistoryScreen.fetchHistory]', error); }
           // Pas d'alerte pour ne pas perturber l'UX : état vide affiché
           setConversations([]);
         } finally {
@@ -635,3 +634,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+

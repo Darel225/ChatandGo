@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+﻿import React, { useRef, useState } from 'react';
+import { BASE_URL } from '../../constants/api';
 import {
   View,
   Text,
@@ -124,7 +125,7 @@ export default function ProfileScreen() {
             setClearing(true);
             try {
               const response = await fetch(
-                'https://chatandgo-backend.onrender.com/webhook/clear-history',
+                `${BASE_URL}/history/clear-history`,
                 {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
@@ -150,7 +151,7 @@ export default function ProfileScreen() {
                 );
               }
             } catch (error) {
-              console.error('[ProfileScreen.clearHistory]', error);
+              if (__DEV__) { console.error('[ProfileScreen.clearHistory]', error); }
               Alert.alert(
                 'Erreur réseau',
                 'Impossible de contacter le serveur. Vérifiez votre connexion et réessayez.',
@@ -708,3 +709,4 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+

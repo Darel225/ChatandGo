@@ -1,9 +1,9 @@
-const N8N_WEBHOOK_URL = 'https://chatandgo-backend.onrender.com/webhook/convcommerce';
+﻿import { BASE_URL } from '../constants/api';
 
 export const chatService = {
-  async sendMessage(message, sessionId) {
+  async sendMessage(message, sessionId, email, userLocation) {
     try {
-      const response = await fetch(N8N_WEBHOOK_URL, {
+      const response = await fetch(`${BASE_URL}/chat/convcommerce`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -11,6 +11,8 @@ export const chatService = {
         body: JSON.stringify({
           message,
           session_id: sessionId,
+          email,
+          user_location: userLocation || "Abidjan"
         }),
       });
 
@@ -19,11 +21,10 @@ export const chatService = {
       }
 
       const data = await response.json();
-      
       return data;
     } catch (error) {
-      console.error('Erreur chatService.sendMessage:', error);
-      throw error; // Re-throw to handle it in the UI
+      if (__DEV__) { console.error('Erreur chatService.sendMessage:', error); }
+      throw error;
     }
   },
 };

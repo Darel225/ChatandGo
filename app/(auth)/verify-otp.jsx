@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,7 @@ import { authService } from '../../services/authService';
 import { useUserStore } from '../../store/useUserStore';
 
 const { width } = Dimensions.get('window');
-const CODE_LENGTH = 4;
+const CODE_LENGTH = 6;
 const BOX_SIZE = (width - 48 - (CODE_LENGTH - 1) * 12) / CODE_LENGTH;
 
 const KEYS = [
@@ -46,7 +46,7 @@ export default function VerifyOtpScreen() {
     KEYS.flat().reduce((acc, k) => ({ ...acc, [k]: new Animated.Value(1) }), {})
   ).current;
 
-  // Compte à rebours "renvoyer"
+  // Compte Ã  rebours "renvoyer"
   useEffect(() => {
     if (countdown <= 0) return;
     const id = setInterval(() => setCountdown(c => c - 1), 1000);
@@ -96,7 +96,7 @@ export default function VerifyOtpScreen() {
           // Nouvel utilisateur : redirige vers l'écran de configuration du profil
           router.push({ pathname: '/(auth)/profile-setup', params: { email } });
         } else {
-          // Utilisateur existant : sauvegarde ses données et accède directement à l'app
+          // Utilisateur existant : sauvegarde ses données et accède directement Ã  l'app
           const user = result.user || {};
           setUserData({
             userId: user.id || null,
@@ -119,7 +119,7 @@ export default function VerifyOtpScreen() {
         triggerShake();
       }
     } catch (e) {
-      console.error('[VerifyOtpScreen]', e);
+      if (__DEV__) { console.error('[VerifyOtpScreen]', e); }
       Alert.alert('Erreur', e.message || 'La vérification a échoué. Réessayez.');
     } finally {
       setLoading(false);
@@ -142,14 +142,14 @@ export default function VerifyOtpScreen() {
 
   return (
     <View style={[styles.root, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-      {/* ─── En-tête ────────────────────────────────── */}
+      {/* â”€â”€â”€ En-tête â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <View style={styles.topBar}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <Ionicons name="arrow-back" size={24} color={Colors.text} />
         </TouchableOpacity>
       </View>
 
-      {/* ─── Contenu principal ──────────────────────── */}
+      {/* â”€â”€â”€ Contenu principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <View style={styles.content}>
         {/* Icône décorative */}
         <View style={styles.iconBadge}>
@@ -162,7 +162,7 @@ export default function VerifyOtpScreen() {
           <Text style={styles.phoneHighlight}>{email || 'votre@email.com'}</Text>
         </Text>
 
-        {/* ─── Cases OTP ────────────────────────────── */}
+        {/* â”€â”€â”€ Cases OTP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <Animated.View
           style={[styles.otpRow, { transform: [{ translateX: shakeAnim }] }]}
         >
@@ -182,7 +182,7 @@ export default function VerifyOtpScreen() {
                 {filled ? (
                   <View style={styles.otpDot} />
                 ) : (
-                  <Text style={styles.otpPlaceholder}>—</Text>
+                  <Text style={styles.otpPlaceholder}>–</Text>
                 )}
               </View>
             );
@@ -207,7 +207,7 @@ export default function VerifyOtpScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* ─── Clavier numérique ──────────────────────── */}
+      {/* â”€â”€â”€ Clavier numérique â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <View style={styles.keypad}>
         {KEYS.map((row, ri) => (
           <View key={ri} style={styles.keyRow}>
@@ -239,7 +239,7 @@ export default function VerifyOtpScreen() {
         {/* Indicateur de chargement sous le clavier */}
         {loading && (
           <View style={styles.loadingRow}>
-            <Text style={styles.loadingText}>Vérification en cours…</Text>
+            <Text style={styles.loadingText}>Vérification en cours...</Text>
           </View>
         )}
       </View>
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
 
-  // ─── Top bar ──────────────────────────────────────────────
+  // â”€â”€â”€ Top bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   topBar: {
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // ─── Contenu ──────────────────────────────────────────────
+  // â”€â”€â”€ Contenu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   content: {
     flex: 1,
     paddingHorizontal: 24,
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
-  // ─── Cases OTP ────────────────────────────────────────────
+  // â”€â”€â”€ Cases OTP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   otpRow: {
     flexDirection: 'row',
     gap: 12,
@@ -348,14 +348,14 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
 
-  // ─── Erreur ───────────────────────────────────────────────
+  // â”€â”€â”€ Erreur â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   errorText: {
     color: Colors.error,
     fontSize: 13,
     marginBottom: 12,
   },
 
-  // ─── Renvoyer ─────────────────────────────────────────────
+  // â”€â”€â”€ Renvoyer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   resendRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 
-  // ─── Clavier ──────────────────────────────────────────────
+  // â”€â”€â”€ Clavier â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   keypad: {
     paddingHorizontal: 20,
     paddingBottom: 16,
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
   },
 
-  // ─── Chargement ───────────────────────────────────────────
+  // â”€â”€â”€ Chargement â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   loadingRow: {
     alignItems: 'center',
     paddingTop: 4,
@@ -424,3 +424,4 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+

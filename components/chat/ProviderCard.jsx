@@ -1,39 +1,49 @@
-import React from 'react';
+﻿import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Linking, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 
 export default function ProviderCard({ provider }) {
+  // Fallback telephone: extract only numbers and + from any available phone field
+  const cleanPhone = (provider.telephone || provider.whatsapp || provider.tel_url || provider.phone || "").replace(/[^0-9+]/g, "");
+  const telUrl = provider.tel_url || (cleanPhone ? `tel:${cleanPhone}` : null);
+  const waUrl = provider.whatsapp_url || (cleanPhone ? `https://wa.me/${cleanPhone}` : null);
+
   const handleCall = async () => {
-    if (!provider.tel_url) return;
-    // canOpenURL('tel:...') retourne false sur Android 11+ sans CALL_PHONE permission.
-    // On ouvre directement — les deux OS gèrent nativement le schéma tel:.
+    if (!telUrl) return;
     try {
-      await Linking.openURL(provider.tel_url);
+      await Linking.openURL(telUrl);
     } catch (error) {
-      console.error("Erreur lors de l'appel:", error);
+      if (__DEV__) { console.error("Erreur lors de l'appel:", error); }
       Alert.alert("Erreur", "Impossible de lancer l'appel. Vérifiez que le numéro est correct.");
     }
   };
 
   const handleWhatsApp = async () => {
-    if (!provider.whatsapp_url) return;
-    
+    if (!waUrl) return;
     try {
-      // On force l'ouverture directe du lien universel https://wa.me/...
-      // Cela évite le bug de "canOpenURL" sur iOS / Simulateur
-      await Linking.openURL(provider.whatsapp_url);
+      await Linking.openURL(waUrl);
     } catch (error) {
-      console.error("Erreur WhatsApp:", error);
-      // Plan de secours intelligent si le navigateur ou l'app plante
+      if (__DEV__) { console.error("Erreur WhatsApp:", error); }
       Alert.alert(
         "WhatsApp indisponible",
         "Impossible d'ouvrir le lien. Souhaitez-vous appeler le prestataire ?",
         [
           { text: "Annuler", style: "cancel" },
-          { text: "Appeler", onPress: handleCall } // On redirige vers l'appel classique
+          { text: "Appeler", onPress: handleCall }
         ]
       );
+    }
+  };
+
+  const handleMaps = async () => {
+    const url = provider.maps_url;
+    if (!url) return;
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      if (__DEV__) { console.error("Erreur Google Maps:", error); }
+      Alert.alert("Erreur", "Impossible d'ouvrir Google Maps.");
     }
   };
 
@@ -58,11 +68,11 @@ export default function ProviderCard({ provider }) {
               <Ionicons name="checkmark-circle" size={15} color={Colors.success} style={{ marginLeft: 4 }} />
             )}
           </View>
-          
+
           <Text style={styles.job} numberOfLines={1}>
             {provider.categorie} {provider.sous_categorie ? `- ${provider.sous_categorie}` : ''}
           </Text>
-          
+
           <View style={styles.metaRow}>
             <Ionicons name="location-outline" size={12} color={Colors.textLight} />
             <Text style={styles.meta}> {provider.quartier}, {provider.ville}</Text>
@@ -89,17 +99,36 @@ export default function ProviderCard({ provider }) {
         </Text>
       )}
 
+      {/* Ligne 1 : Appeler + WhatsApp */}
       <View style={styles.actions}>
-        <TouchableOpacity style={[styles.btn, styles.callBtn]} onPress={handleCall}>
+        <TouchableOpacity 
+          style={[styles.btn, styles.callBtn, !telUrl && { backgroundColor: '#A0C4FF' }]} 
+          onPress={handleCall}
+          disabled={!telUrl}
+          activeOpacity={0.7}
+        >
           <Ionicons name="call" size={15} color="#fff" />
           <Text style={styles.btnText}>Appeler</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity style={[styles.btn, styles.waBtn]} onPress={handleWhatsApp}>
+
+        <TouchableOpacity 
+          style={[styles.btn, styles.waBtn, !waUrl && { backgroundColor: '#85E0A3' }]} 
+          onPress={handleWhatsApp}
+          disabled={!waUrl}
+          activeOpacity={0.7}
+        >
           <Ionicons name="logo-whatsapp" size={15} color="#fff" />
           <Text style={styles.btnText}>WhatsApp</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Ligne 2 : Itinéraire (pleine largeur) */}
+      {provider.maps_url ? (
+        <TouchableOpacity style={[styles.btn, styles.mapsBtn]} onPress={handleMaps}>
+          <Ionicons name="navigate-outline" size={15} color="#fff" />
+          <Text style={styles.btnText}>Itinéraire</Text>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 }
@@ -144,7 +173,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     lineHeight: 18,
   },
-  actions: { flexDirection: 'row', gap: 10 },
+  actions: { flexDirection: 'row', gap: 10, marginBottom: 10 },
   btn: {
     flex: 1,
     flexDirection: 'row',
@@ -156,5 +185,7 @@ const styles = StyleSheet.create({
   },
   callBtn: { backgroundColor: Colors.primary },
   waBtn: { backgroundColor: '#25D366' },
+  mapsBtn: { backgroundColor: '#EA4335', marginBottom: 0 },
   btnText: { color: '#fff', fontSize: 13, fontWeight: '600' },
 });
+

@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { BASE_URL } from '../../constants/api';
 import {
   View,
   Text,
@@ -21,7 +22,7 @@ import ChatBubble from '../../components/chat/ChatBubble';
 import TypingIndicator from '../../components/chat/TypingIndicator';
 
 export default function AiChatScreen() {
-  const { avatar, firstName, sessionId: storeSessionId } = useUserStore();
+  const { avatar, firstName, sessionId: storeSessionId, email, quartier } = useUserStore();
   const { prefill, sessionId: historySessionId, titre } = useLocalSearchParams();
   const insets = useSafeAreaInsets();
   const listRef = useRef(null);
@@ -64,11 +65,11 @@ export default function AiChatScreen() {
       setLoadingHistory(true);
       try {
         const response = await fetch(
-          'https://chatandgo-backend.onrender.com/webhook/get-conversation',
+          `${BASE_URL}/history/get-conversation`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sessionId: historySessionId }),
+            body: JSON.stringify({ session_id: historySessionId, email: email }),
           }
         );
 
@@ -117,11 +118,11 @@ export default function AiChatScreen() {
         } else {
           // La session n'existe plus en base (historique vidé ou introuvable) :
           // réinitialise silencieusement en mode "nouvelle conversation vide"
-          console.warn('[AiChatScreen] Session introuvable ou vide — réinitialisation.');
+          if (__DEV__) { console.warn('[AiChatScreen] Session introuvable ou vide — réinitialisation.'); }
           setMessages([]);
         }
       } catch (error) {
-        console.error('❌ Erreur chargement historique :', error);
+        if (__DEV__) { console.error('❌ Erreur chargement historique :', error); }
       } finally {
         setLoadingHistory(false);
       }
@@ -149,7 +150,7 @@ export default function AiChatScreen() {
     setLoading(true);
 
     try {
-      const response = await chatService.sendMessage(text, activeSessionId);
+      const response = await chatService.sendMessage(text, activeSessionId, email, quartier);
 
       const botMsgText = response.reponse_texte || (response.prestataires && response.prestataires.length > 0 ? "Voici ce que j'ai trouvé :" : "Je n'ai pas bien compris, pouvez-vous reformuler ?");
 
@@ -163,7 +164,7 @@ export default function AiChatScreen() {
 
       setMessages(prev => [...prev, botMsg]);
     } catch (e) {
-      console.error(e);
+      if (__DEV__) { console.error(e); }
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         text: "Désolé, une erreur est survenue lors de la communication avec le serveur.",

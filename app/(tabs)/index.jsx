@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+﻿import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -17,8 +17,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '../../constants/Colors';
 import { useUserStore } from '../../store/useUserStore';
 
-// URL de base du webhook n8n (identique à authService)
-const N8N_BASE_URL = 'https://chatandgo-backend.onrender.com';
+import { BASE_URL } from '../../constants/api';
 
 // ─── Données statiques des catégories ─────────────────────────
 const CATEGORIES = [
@@ -48,7 +47,7 @@ export default function HomeScreen() {
 
         setLoadingContacts(true);
         try {
-          const response = await fetch(`${N8N_BASE_URL}/webhook/get-recent-contacts`, {
+          const response = await fetch(`${BASE_URL}/history/get-recent-contacts`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),
@@ -67,7 +66,7 @@ export default function HomeScreen() {
             setContacts([]);
           }
         } catch (error) {
-          console.error('[HomeScreen.fetchRecentContacts]', error);
+          if (__DEV__) { console.error('[HomeScreen.fetchRecentContacts]', error); }
           setContacts([]);
         } finally {
           setLoadingContacts(false);
@@ -99,7 +98,7 @@ export default function HomeScreen() {
     try {
       await Linking.openURL(url);
     } catch (error) {
-      console.error('[HomeScreen.handleCall]', error);
+      if (__DEV__) { console.error('[HomeScreen.handleCall]', error); }
       Alert.alert('Erreur', "Impossible de lancer l'appel. Vérifiez que le numéro est correct.");
     }
   };
@@ -125,7 +124,7 @@ export default function HomeScreen() {
       await Linking.openURL(url);
 
     } catch (error) {
-      console.error('[HomeScreen.handleWhatsApp]', error);
+      if (__DEV__) { console.error('[HomeScreen.handleWhatsApp]', error); }
       // Fallback si l'application ne peut vraiment pas s'ouvrir
       Alert.alert(
         "WhatsApp indisponible",
