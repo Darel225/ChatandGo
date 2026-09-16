@@ -24,8 +24,6 @@ export default function ProfileSetupScreen() {
   const [fullName, setFullName] = useState('');
   const [zone, setZone] = useState('');
   const [avatar, setAvatar] = useState(null);
-  const [nameFocused, setNameFocused] = useState(false);
-  const [zoneFocused, setZoneFocused] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Référence pour le passage au champ suivant
@@ -145,11 +143,11 @@ export default function ProfileSetupScreen() {
 
         <View style={styles.form}>
           <Text style={styles.label}>Nom complet</Text>
-          <View style={[styles.inputWrapper, nameFocused && styles.inputFocused]}>
+          <View style={styles.inputWrapper}>
             <Ionicons
               name="person-outline"
               size={20}
-              color={nameFocused ? Colors.primary : Colors.textLight}
+              color={Colors.textLight}
               style={styles.inputIcon}
             />
             <TextInput
@@ -158,8 +156,6 @@ export default function ProfileSetupScreen() {
               placeholderTextColor={Colors.textLight}
               value={fullName}
               onChangeText={setFullName}
-              onFocus={() => setNameFocused(true)}
-              onBlur={() => setNameFocused(false)}
               autoCapitalize="words"
               returnKeyType="next"
               onSubmitEditing={() => zoneInputRef.current?.focus()}
@@ -171,11 +167,11 @@ export default function ProfileSetupScreen() {
           </View>
 
           <Text style={[styles.label, { marginTop: 20 }]}>Quartier / Commune</Text>
-          <View style={[styles.inputWrapper, zoneFocused && styles.inputFocused]}>
+          <View style={styles.inputWrapper}>
             <Ionicons
               name="location-outline"
               size={20}
-              color={zoneFocused ? Colors.primary : Colors.textLight}
+              color={Colors.textLight}
               style={styles.inputIcon}
             />
             <TextInput
@@ -185,8 +181,6 @@ export default function ProfileSetupScreen() {
               placeholderTextColor={Colors.textLight}
               value={zone}
               onChangeText={setZone}
-              onFocus={() => setZoneFocused(true)}
-              onBlur={() => setZoneFocused(false)}
               autoCapitalize="words"
               returnKeyType="done"
               onSubmitEditing={handleComplete}
@@ -327,15 +321,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.gray,
     height: 56,
     paddingHorizontal: 14,
-  },
-  inputFocused: {
-    borderColor: Colors.primary,
-    backgroundColor: '#fff',
-    shadowColor: Colors.primary,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    // SUPPRESSION DE "elevation: 3" ICI POUR FIXER LE BUG ANDROID
   },
   inputIcon: {
     marginRight: 10,
